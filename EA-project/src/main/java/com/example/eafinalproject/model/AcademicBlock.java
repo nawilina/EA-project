@@ -8,9 +8,10 @@ import java.util.List;
 @Entity
 public class AcademicBlock {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "semester")
     private Semester semester;
 
@@ -26,71 +27,68 @@ public class AcademicBlock {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "numberOfStudent")
+    @Column(name = "number_of_students")
     private int numOfStudents;
 
     @Column(name = "block_order")
     private int blockOrder;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "registrationGroup_id")
+    @JoinColumn(name = "registration_group_id")
     private RegistrationGroup registrationGroup;
 
     @OneToMany(mappedBy = "block", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<CourseOffering> courseOfferingList;
+    private List<CourseOffering> courseOfferingList = new ArrayList<>();
 
-    public AcademicBlock(){
-        courseOfferingList = new ArrayList<CourseOffering>();
+    public AcademicBlock() {
     }
-
-
 
     public long getId() {
         return id;
-    }
-
-    public Entry getEntry() {
-        return entry;
-    }
-
-    public void setEntry(Entry entry) {
-        this.entry = entry;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public String getBlockMonth() {
-        return blockMonth;
+    public Semester getSemester() {
+        return semester;
     }
 
-    public void setBlockMonth(String blockMonth) {
-        this.blockMonth = blockMonth;
+    public void setSemester(Semester semester) {
+        this.semester = semester;
     }
 
-    public Date getBlockStartDate() {
-        return blockStartDate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setBlockStartDate(Date blockStartDate) {
-        this.blockStartDate = blockStartDate;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getBlockEndDate() {
-        return blockEndDate;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setBlockEndDate(Date blockEndDate) {
-        this.blockEndDate = blockEndDate;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
-    public List<Section> getSections() {
-        return sections;
+    public String getCode() {
+        return code;
     }
 
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getNumOfStudents() {
@@ -109,4 +107,19 @@ public class AcademicBlock {
         this.blockOrder = blockOrder;
     }
 
+    public RegistrationGroup getRegistrationGroup() {
+        return registrationGroup;
+    }
+
+    public void setRegistrationGroup(RegistrationGroup registrationGroup) {
+        this.registrationGroup = registrationGroup;
+    }
+
+    public List<CourseOffering> getCourseOfferingList() {
+        return courseOfferingList;
+    }
+
+    public void setCourseOfferingList(List<CourseOffering> courseOfferingList) {
+        this.courseOfferingList = courseOfferingList;
+    }
 }

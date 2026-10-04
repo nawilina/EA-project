@@ -8,34 +8,37 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 @Transactional
 public class AdminService {
     @Autowired
-    AdminRepository adminRepository;
-    public Admin save(Admin admin){
-        return  adminRepository.save(admin);
+    private AdminRepository adminRepository;
+
+    public Admin save(Admin admin) {
+        return adminRepository.save(admin);
     }
-    public List<Admin> getAll(){
-        return (List<Admin>) adminRepository.findAll();
+
+    public List<Admin> getAll() {
+        return adminRepository.findAll();
     }
-    public Admin getAdminById(String id){
-        Optional<Admin> admins = adminRepository.findById(id);
-        if(admins.isPresent()){
-            return admins.get();
+
+    public Admin getAdminById(String id) {
+        Optional<Admin> admin = adminRepository.findById(id);
+        return admin.orElse(null);
+    }
+
+    public Admin updateAdmins(Admin admin, String id) {
+        Optional<Admin> existingAdmin = adminRepository.findById(id);
+        if (existingAdmin.isPresent()) {
+            admin.setId(existingAdmin.get().getId());
+            return adminRepository.save(admin);
         }
-          return null;
-}
-public Admin updateAdmins (Admin admin, String id) {
-    Optional<Admin> existingAdmin = adminRepository.findById(id);
-    if (existingAdmin.isPresent()) {
-        return
+        return null;
     }
 
-
-
-
-
-
-
+    public void deleteAdminById(String id) {
+        adminRepository.deleteById(id);
+    }
+}
 
